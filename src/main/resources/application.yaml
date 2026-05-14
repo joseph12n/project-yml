@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: SpringBoot_Mongo
+  data:
+    mongodb:
+      connection-string: mongodb://localhost:27017/testdb
+      auto-index-creation: true
