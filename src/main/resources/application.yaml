@@ -1,7 +1,14 @@
 spring:
   application:
-    name: SpringBoot_Mongo
+    name: project-yml
+
+  # Database configuration
+  mongodb:
+    host: localhost
+    port: 27017
+    database: testdb
+    #username: myuser
+    #password: mypassword
   data:
     mongodb:
-      connection-string: mongodb://localhost:27017/testdb
       auto-index-creation: true
