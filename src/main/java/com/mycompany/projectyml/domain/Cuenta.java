@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Document(collection = "cuentas")
 public class Cuenta implements Serializable {
@@ -69,4 +70,15 @@ public class Cuenta implements Serializable {
         this.cliente = cliente;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cuenta cuenta = (Cuenta) o;
+        return Objects.equals(id, cuenta.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

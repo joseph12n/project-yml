@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Document(collection = "tipo_documento") // Esta anotacion indica que clase va a ser un documento
@@ -37,6 +38,13 @@ public class TipoDocumento {
     @DBRef // indica que este campo es una referencia a otro documento en mongo
     @Field("clientes")
     private Set<Cliente> clientes = new HashSet<>();
+
+    public TipoDocumento(String id, @Nonnull String sigla, @Nonnull String nombreDocumento, @Nonnull Estado estado) {
+        this.id = id;
+        this.sigla = sigla;
+        this.nombreDocumento = nombreDocumento;
+        this.estado = estado;
+    }
 
     public String getId() {
         return id;
@@ -73,12 +81,15 @@ public class TipoDocumento {
         this.estado = estado;
     }
 
-    public TipoDocumento(String id, @Nonnull String sigla, @Nonnull String nombreDocumento, @Nonnull Estado estado) {
-        this.id = id;
-        this.sigla = sigla;
-        this.nombreDocumento = nombreDocumento;
-        this.estado = estado;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        TipoDocumento that = (TipoDocumento) o;
+        return Objects.equals(id, that.id);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }

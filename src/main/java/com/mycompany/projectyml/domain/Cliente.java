@@ -11,6 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Document(collection = "clientes")
 public class Cliente implements Serializable {
@@ -52,6 +55,8 @@ public class Cliente implements Serializable {
     @DocumentReference
     @Field("cuenta")
     private Cuenta cuenta;
+
+    private Set<Factura> facturas= new HashSet<>();
 
     public Cliente(String id, @Nonnull String numeroDocumento, @Nonnull String primerNombre, String segundoNombre, @Nonnull String primerApellido, String segundoApellido) {
         this.id = id;
@@ -127,5 +132,25 @@ public class Cliente implements Serializable {
 
     public void setCuenta(Cuenta cuenta) {
         this.cuenta = cuenta;
+    }
+
+    public Set<Factura> getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(Set<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(id, cliente.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
