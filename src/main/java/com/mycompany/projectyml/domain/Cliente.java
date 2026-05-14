@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -13,6 +14,11 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Document(collection = "clientes")
+@CompoundIndex(
+        name= "idx_unique_cliente1",
+        def="{'numero_documento': 1,'tipo_documento.sigla': 1}",
+        unique = true
+)
 public class Cliente implements Serializable {
 
     @Serial
@@ -44,10 +50,8 @@ public class Cliente implements Serializable {
     @Field("segundo_apellido")
     private String segundoApellido;
 
-    @DBRef
-    @JsonIgnoreProperties(value = { "clientes" }, allowSetters = true)
-    @Field ("tipo_documento")
-    private TipoDocumento tipoDocumento;
+    @Field("tipo_documento")
+    private TipoDocumentoEmbedded tipoDocumentoEmbedded;
 
     @DocumentReference
     @Field("cuenta")
@@ -113,12 +117,12 @@ public class Cliente implements Serializable {
         this.segundoApellido = segundoApellido;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
+    public TipoDocumentoEmbedded getTipoDocumentoEmbedded() {
+        return tipoDocumentoEmbedded;
     }
 
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setTipoDocumentoEmbedded(TipoDocumentoEmbedded tipoDocumentoEmbedded) {
+        this.tipoDocumentoEmbedded = tipoDocumentoEmbedded;
     }
 
     public Cuenta getCuenta() {

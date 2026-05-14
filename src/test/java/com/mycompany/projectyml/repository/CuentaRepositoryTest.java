@@ -3,6 +3,7 @@ package com.mycompany.projectyml.repository;
 import com.mycompany.projectyml.domain.Cliente;
 import com.mycompany.projectyml.domain.Cuenta;
 import com.mycompany.projectyml.domain.TipoDocumento;
+import com.mycompany.projectyml.domain.TipoDocumentoEmbedded;
 import com.mycompany.projectyml.domain.enumeration.Estado;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ class CuentaRepositoryTest {
 
     @Test
     void Insert() {
-        mongoTemplate.dropCollection(Cliente.class);
-        mongoTemplate.dropCollection(Cuenta.class);
+        clienteRepository.deleteAll();
+        cuentaRepository.deleteAll();
         tipoDocumentoRepository.deleteAll();
 
         TipoDocumento tipoDocumentoCedula = tipoDocumentoRepository.insert(new TipoDocumento(
@@ -41,8 +42,10 @@ class CuentaRepositoryTest {
         Cliente cliente = new Cliente(null, "1025142222", "juan", "arturo", "lopez", "gonzales");
         Cliente cliente2 = new Cliente(null, "1025142245", "jonh", "luis", "lopez", "gonzales");
 
-        cliente.setTipoDocumento(tipoDocumentoCedula);
-        cliente2.setTipoDocumento(tipoDocumentoCedula);
+        TipoDocumentoEmbedded tipoDocumentoEmbedded = new TipoDocumentoEmbedded(tipoDocumentoCedula.getSigla(),tipoDocumentoCedula.getNombreDocumento());
+
+        cliente.setTipoDocumentoEmbedded(tipoDocumentoEmbedded);
+        cliente2.setTipoDocumentoEmbedded(tipoDocumentoEmbedded);
 
         Cliente clienteGuardado = clienteRepository.insert(cliente);
         Cliente clienteGuardado2 = clienteRepository.insert(cliente2);

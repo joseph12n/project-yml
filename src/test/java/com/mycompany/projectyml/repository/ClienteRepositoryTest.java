@@ -2,6 +2,7 @@ package com.mycompany.projectyml.repository;
 
 import com.mycompany.projectyml.domain.Cliente;
 import com.mycompany.projectyml.domain.TipoDocumento;
+import com.mycompany.projectyml.domain.TipoDocumentoEmbedded;
 import com.mycompany.projectyml.domain.enumeration.Estado;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,32 +26,31 @@ class ClienteRepositoryTest {
     @Test
     void Insert() {
         mongoTemplate.dropCollection(Cliente.class);
-        tipoDocumentoRepository.deleteAll();
+        mongoTemplate.dropCollection(TipoDocumento.class);
 
-        TipoDocumento tipoDocumentoCedula = tipoDocumentoRepository.insert(new TipoDocumento(
-                null, "CC", "Cedula de Ciudadania", Estado.ACTIVO)
+        TipoDocumento tipoDocumentoCedula = tipoDocumentoRepository.insert(
+                new TipoDocumento(null, "CC", "Cedula de Ciudadania", Estado.ACTIVO)
         );
 
         Cliente cliente = new Cliente(null, "1025142222", "juan", "arturo", "lopez", "gonzales");
         Cliente cliente2 = new Cliente(null, "1025142245", "jonh", "luis", "lopez", "gonzales");
 
         assertNotNull(tipoDocumentoCedula);
-        cliente.setTipoDocumento(tipoDocumentoCedula);
-        cliente2.setTipoDocumento(tipoDocumentoCedula);
+
+        TipoDocumentoEmbedded tipoDocumentoEmbedded = new TipoDocumentoEmbedded(tipoDocumentoCedula.getSigla(),tipoDocumentoCedula.getNombreDocumento());
+
+        cliente.setTipoDocumentoEmbedded(tipoDocumentoEmbedded);
+        cliente2.setTipoDocumentoEmbedded(tipoDocumentoEmbedded);
 
         Cliente clienteGuardado = clienteRepository.insert(cliente);
         Cliente clienteGuardado2 = clienteRepository.insert(cliente2);
 
         assertNotNull(clienteGuardado.getId());
         assertNotNull(clienteGuardado2.getId());
-
-        Cliente clienteRecuperado = clienteRepository.findById(clienteGuardado.getId()).orElseThrow();
-        Cliente clienteRecuperado2 = clienteRepository.findById(clienteGuardado2.getId()).orElseThrow();
-
-        assertNotNull(clienteRecuperado.getTipoDocumento());
-        assertNotNull(clienteRecuperado2.getTipoDocumento());
-        assertEquals("CC", clienteRecuperado.getTipoDocumento().getSigla());
-        assertEquals("CC", clienteRecuperado2.getTipoDocumento().getSigla());
+        assertNotNull(clienteGuardado.getTipoDocumentoEmbedded());
+        assertNotNull(clienteGuardado2.getTipoDocumentoEmbedded());
+        assertEquals("CC", clienteGuardado.getTipoDocumentoEmbedded().getSigla());
+        assertEquals("CC", clienteGuardado.getTipoDocumentoEmbedded().getSigla());
         assertEquals(2, clienteRepository.count());
 
     }
