@@ -1,16 +1,27 @@
 package com.mycompany.projectyml.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Document(collection = "factura")
 @CompoundIndex(name = "idx_numero_factura", def = "{'numeroFactura': 1, 'anio': 1}", unique = true)
-public class Factura {
+public class Factura implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Id
     private String id;
     private long numeroFactura;
     private int anio;
@@ -23,6 +34,25 @@ public class Factura {
     @Field("cliente")
     @JsonIgnoreProperties(value = { "cuenta", "tipoDocumento", "facturas" }, allowSetters = true)
     private Cliente cliente;
+
+    @Field("producto")
+    private Set<ProductoEmbedded> producto = new HashSet<>();
+
+    public Set<ProductoEmbedded> getProducto() {
+        return producto;
+    }
+
+    public Set<ProductoEmbedded> getProductos() {
+        return producto;
+    }
+
+    public void setProducto(Set<ProductoEmbedded> producto) {
+        this.producto = producto;
+    }
+
+    public void setProductos(Set<ProductoEmbedded> producto) {
+        this.producto = producto;
+    }
 
     public Factura(String id, long numeroFactura, int anio, Date fecha, double total, double iva, double subtotal) {
         this.id = id;

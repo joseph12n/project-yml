@@ -141,7 +141,15 @@ public class Cliente implements Serializable {
         return facturas;
     }
 
+    public Set<Factura> getFacturaSet() {
+        return facturas;
+    }
+
     public void setFacturas(Set<Factura> facturas) {
+        this.facturas = facturas;
+    }
+
+    public void setFacturaSet(Set<Factura> facturas) {
         this.facturas = facturas;
     }
 

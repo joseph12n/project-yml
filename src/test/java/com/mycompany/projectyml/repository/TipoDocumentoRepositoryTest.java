@@ -20,7 +20,7 @@ class TipoDocumentoRepositoryTest {
 
     @Test
     void Insert(){
-        mongoTemplate.dropCollection(TipoDocumento.class);
+        tipoDocumentoRepository.deleteAll();
         TipoDocumento tipoDocumento = new TipoDocumento(null, "CC", "Cedula de Ciudadania", Estado.ACTIVO);
         tipoDocumentoRepository.save(tipoDocumento);
     }

@@ -3,12 +3,12 @@ spring:
     name: project-yml
 
   # Database configuration
-  mongodb:
-    host: localhost
-    port: 27017
-    database: testdb
-    #username: myuser
-    #password: mypassword
-  data:
     mongodb:
-      auto-index-creation: true
+        host: localhost
+        port: 27017
+        database: testdb
+      #username: myuser
+      #password: mypassword
+  data:
+        mongodb:
+          auto-index-creation: true
