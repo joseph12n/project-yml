@@ -11,6 +11,7 @@ import org.springframework.boot.data.mongodb.test.autoconfigure.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.Date;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 

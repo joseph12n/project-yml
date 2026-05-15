@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
@@ -19,7 +20,7 @@ public class Factura {
     private double iva;
     private double subtotal;
 
-    @DBRef
+    @DocumentReference
     @Field("cliente")
     @JsonIgnoreProperties(value = { "cuenta", "tipoDocumento", "facturas" }, allowSetters = true)
     private Cliente cliente;
