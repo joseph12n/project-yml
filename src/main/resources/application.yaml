@@ -1,14 +1,15 @@
 spring:
   application:
     name: project-yml
-
+server:
+  port: 8081
   # Database configuration
-    mongodb:
-        host: localhost
-        port: 27017
-        database: testdb
+  mongodb:
+    host: localhost
+    port: 27017
+    database: testdb
       #username: myuser
       #password: mypassword
   data:
-        mongodb:
-          auto-index-creation: true
+    mongodb:
+       auto-index-creation: true
